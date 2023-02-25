@@ -1,22 +1,34 @@
 package spring.aop.demo.post.presentation;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
+import spring.aop.demo.post.presentation.dto.ReadPostDto;
 import spring.aop.demo.post.presentation.dto.WritePostDto;
 import spring.aop.demo.post.service.PostUseCase;
 
+@Validated
 @RestController
 @RequestMapping("/v1/board")
 @RequiredArgsConstructor
 public class PostController {
 	private final PostUseCase postUseCase;
+
+	@GetMapping("/{postId}")
+	public ResponseEntity<ReadPostDto.ResponseForm> writeNewPostApi(@PathVariable @NotNull int postId) {
+		ReadPostDto.ResponseForm response = postUseCase.read(postId);
+		return ResponseEntity.ok(response);
+	}
 
 	@PostMapping
 	public ResponseEntity<WritePostDto.ResponseForm> writeNewPostApi(
