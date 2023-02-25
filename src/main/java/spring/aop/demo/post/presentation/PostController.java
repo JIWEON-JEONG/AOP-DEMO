@@ -19,7 +19,7 @@ import spring.aop.demo.post.service.PostUseCase;
 
 @Validated
 @RestController
-@RequestMapping("/v1/board")
+@RequestMapping("/v1/boards")
 @RequiredArgsConstructor
 public class PostController {
 	private final PostUseCase postUseCase;
