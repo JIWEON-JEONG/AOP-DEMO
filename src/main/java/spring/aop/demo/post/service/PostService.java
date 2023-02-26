@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import spring.aop.demo.post.domain.Post;
 import spring.aop.demo.post.domain.repository.PostRepository;
+import spring.aop.demo.post.presentation.dto.DeletePostDto;
 import spring.aop.demo.post.presentation.dto.ReadPostDto;
 import spring.aop.demo.post.presentation.dto.UpdatePostDto;
 import spring.aop.demo.post.presentation.dto.WritePostDto;
@@ -22,7 +23,7 @@ public class PostService implements PostUseCase {
 	@Transactional(readOnly = true)
 	@Override
 	public ReadPostDto.ResponseForm read(Long postId) {
-		Optional<Post> wrappedPost = postRepository.findById(postId);
+		Optional<Post> wrappedPost = postRepository.findByPrimaryKey(postId);
 		Post post = validateIfExist(wrappedPost);
 
 		return ReadPostDto.ResponseForm.builder()
@@ -45,7 +46,7 @@ public class PostService implements PostUseCase {
 
 	@Override
 	public UpdatePostDto.ResponseForm update(Long postId, UpdatePostDto.RequestForm request) {
-		Optional<Post> wrappedPost = postRepository.findById(postId);
+		Optional<Post> wrappedPost = postRepository.findByPrimaryKey(postId);
 		Post post = validateIfExist(wrappedPost);
 		post.update(request.getTitle(), request.getContent());
 
@@ -54,6 +55,15 @@ public class PostService implements PostUseCase {
 			.title(post.readTitle())
 			.content(post.readContent())
 			.build();
+	}
+
+	@Override
+	public DeletePostDto.ResponseForm delete(Long postId) {
+		Optional<Post> wrappedPost = postRepository.findByPrimaryKey(postId);
+		Post post = validateIfExist(wrappedPost);
+		post.delete();
+
+		return new DeletePostDto.ResponseForm(postId);
 	}
 
 	private Post validateIfExist(Optional<Post> post) {

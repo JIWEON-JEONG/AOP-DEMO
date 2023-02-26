@@ -52,7 +52,7 @@ class PostServiceTest {
 		ReflectionTestUtils.setField(post, "id", postId);
 
 		//when :: bdd mockito given
-		when(postRepository.findById(Mockito.any(Long.class)))
+		when(postRepository.findByPrimaryKey(Mockito.any(Long.class)))
 			.thenReturn(Optional.of(post));
 		ReadPostDto.ResponseForm response = postUseCase.read(postId);
 
@@ -101,7 +101,7 @@ class PostServiceTest {
 		String updateContent = "updateContent";
 
 		//when
-		when(postRepository.findById(Mockito.any(Long.class)))
+		when(postRepository.findByPrimaryKey(Mockito.any(Long.class)))
 			.thenReturn(Optional.of(post));
 		UpdatePostDto.ResponseForm response = postUseCase.update(postId,
 			new UpdatePostDto.RequestForm(updateTitle, updateContent));

@@ -26,6 +26,9 @@ public class Post {
 	@Column(columnDefinition = "TEXT")
 	private String content;
 
+	@Column(columnDefinition = "TINYINT(1)")
+	private boolean isDeleted = Boolean.FALSE;
+
 	@Builder
 	public Post(String title, String content) {
 		this.title = title;
@@ -47,5 +50,9 @@ public class Post {
 	public void update(String title, String content) {
 		this.title = title;
 		this.content = content;
+	}
+
+	public void delete() {
+		this.isDeleted = Boolean.TRUE;
 	}
 }
