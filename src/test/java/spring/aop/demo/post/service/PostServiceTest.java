@@ -49,7 +49,7 @@ class PostServiceTest {
 		Long postId = 1L;
 		ReflectionTestUtils.setField(post, "id", postId);
 
-		//when
+		//when :: bdd mockito given
 		when(postRepository.save(Mockito.any(Post.class)))
 			.thenReturn(post);
 		WritePostDto.ResponseForm response = postUseCase.write(new WritePostDto.RequestForm(title, content));
