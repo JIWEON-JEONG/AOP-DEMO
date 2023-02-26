@@ -1,4 +1,4 @@
-package spring.aop.demo.common.dynamic_proxy;
+package spring.aop.demo.querycounter.dynamic_proxy;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -6,7 +6,7 @@ import java.util.Objects;
 
 import org.springframework.web.context.request.RequestContextHolder;
 
-import spring.aop.demo.common.ApiQueryCounter;
+import spring.aop.demo.querycounter.ApiQueryCounter;
 
 public class PreparedStatementProxyHandler implements InvocationHandler {
 
