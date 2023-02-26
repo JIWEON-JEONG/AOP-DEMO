@@ -63,7 +63,10 @@ public class PostService implements PostUseCase {
 		Post post = validateIfExist(wrappedPost);
 		post.delete();
 
-		return new DeletePostDto.ResponseForm(postId);
+		return DeletePostDto.ResponseForm.builder()
+			.id(post.readPrimaryKey())
+			.isDeleted(post.isDeleted())
+			.build();
 	}
 
 	private Post validateIfExist(Optional<Post> post) {

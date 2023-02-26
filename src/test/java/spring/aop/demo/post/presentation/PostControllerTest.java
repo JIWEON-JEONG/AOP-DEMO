@@ -78,4 +78,20 @@ class PostControllerTest extends BaseIntegrationTest {
 			.andExpect(jsonPath("$.title").value("updateTitle"))
 			.andExpect(jsonPath("$.content").value("updateContent"));
 	}
+
+	@Order(value = 4)
+	void 게시물_삭제() throws Exception {
+		//given
+		Long postId = 1L;
+		//when
+		ResultActions resultActions = mockMvc.perform(delete("/v1/boards/" + postId)
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON))
+			.andDo(print());
+		//then
+		resultActions
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.id").value(1L))
+			.andExpect(jsonPath("$.isDeleted").value(Boolean.TRUE));
+	}
 }

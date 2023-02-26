@@ -20,6 +20,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 
 import spring.aop.demo.post.domain.Post;
 import spring.aop.demo.post.domain.repository.PostRepository;
+import spring.aop.demo.post.presentation.dto.DeletePostDto;
 import spring.aop.demo.post.presentation.dto.ReadPostDto;
 import spring.aop.demo.post.presentation.dto.UpdatePostDto;
 import spring.aop.demo.post.presentation.dto.WritePostDto;
@@ -110,5 +111,28 @@ class PostServiceTest {
 		assertThat(response.getId()).isEqualTo(postId);
 		assertThat(response.getTitle()).isEqualTo(updateTitle);
 		assertThat(response.getContent()).isEqualTo(updateContent);
+	}
+
+	@Test
+	@DisplayName("게시물 삭제 테스트 코드")
+	void delete() {
+		//given
+		String title = "title";
+		String content = "content";
+		Post post = Post.builder()
+			.title(title)
+			.content(content)
+			.build();
+		Long postId = 1L;
+		ReflectionTestUtils.setField(post, "id", postId);
+
+		//when :: bdd mockito given
+		when(postRepository.findByPrimaryKey(Mockito.any(Long.class)))
+			.thenReturn(Optional.of(post));
+		DeletePostDto.ResponseForm response = postUseCase.delete(postId);
+
+		//then
+		assertThat(response.getIsDeleted()).isTrue();
+		assertThat(response.getId()).isEqualTo(postId);
 	}
 }
