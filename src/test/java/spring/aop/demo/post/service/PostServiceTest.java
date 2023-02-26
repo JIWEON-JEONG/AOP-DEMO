@@ -21,6 +21,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 import spring.aop.demo.post.domain.Post;
 import spring.aop.demo.post.domain.repository.PostRepository;
 import spring.aop.demo.post.presentation.dto.ReadPostDto;
+import spring.aop.demo.post.presentation.dto.UpdatePostDto;
 import spring.aop.demo.post.presentation.dto.WritePostDto;
 
 @ExtendWith(SpringExtension.class)
@@ -74,12 +75,40 @@ class PostServiceTest {
 		Long postId = 1L;
 		ReflectionTestUtils.setField(post, "id", postId);
 
-		//when :: bdd mockito given
+		//when
 		when(postRepository.save(Mockito.any(Post.class)))
 			.thenReturn(post);
 		WritePostDto.ResponseForm response = postUseCase.write(new WritePostDto.RequestForm(title, content));
 
 		//then
 		assertThat(response.getId()).isEqualTo(postId);
+	}
+
+	@Test
+	@DisplayName("게시물 업데이트 테스트 코드")
+	void update() {
+		//given
+		String title = "title";
+		String content = "content";
+		Post post = Post.builder()
+			.title(title)
+			.content(content)
+			.build();
+		Long postId = 1L;
+		ReflectionTestUtils.setField(post, "id", postId);
+
+		String updateTitle = "updateIitle";
+		String updateContent = "updateContent";
+
+		//when
+		when(postRepository.findById(Mockito.any(Long.class)))
+			.thenReturn(Optional.of(post));
+		UpdatePostDto.ResponseForm response = postUseCase.update(postId,
+			new UpdatePostDto.RequestForm(updateTitle, updateContent));
+
+		//then
+		assertThat(response.getId()).isEqualTo(postId);
+		assertThat(response.getTitle()).isEqualTo(updateTitle);
+		assertThat(response.getContent()).isEqualTo(updateContent);
 	}
 }

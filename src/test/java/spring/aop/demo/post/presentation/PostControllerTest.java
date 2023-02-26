@@ -14,6 +14,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import spring.aop.demo.BaseIntegrationTest;
+import spring.aop.demo.post.presentation.dto.UpdatePostDto;
 import spring.aop.demo.post.presentation.dto.WritePostDto;
 
 class PostControllerTest extends BaseIntegrationTest {
@@ -39,6 +40,29 @@ class PostControllerTest extends BaseIntegrationTest {
 
 	@Test
 	@Order(value = 2)
+	void 게시물_업데이트() throws Exception {
+		//given
+		Long postId = 1L;
+		String updateTitle = "updateTitle";
+		String updateContent = "updateContent";
+		UpdatePostDto.RequestForm requestForm = new UpdatePostDto.RequestForm(updateTitle, updateContent);
+		//when
+		ResultActions resultActions = mockMvc.perform(put("/v1/boards/" + postId)
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(objectMapper.writeValueAsString(requestForm))
+				.accept(MediaType.APPLICATION_JSON))
+			.andDo(print());
+		//then
+		resultActions
+			.andExpect(status().isOk())
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.id").value(1L))
+			.andExpect(jsonPath("$.title").value(updateTitle))
+			.andExpect(jsonPath("$.content").value(updateContent));
+	}
+
+	@Test
+	@Order(value = 3)
 	void 게시물_읽기() throws Exception {
 		//given
 		Long postId = 1L;
@@ -51,7 +75,7 @@ class PostControllerTest extends BaseIntegrationTest {
 		resultActions
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.id").value(1L))
-			.andExpect(jsonPath("$.title").value("title"))
-			.andExpect(jsonPath("$.content").value("content"));
+			.andExpect(jsonPath("$.title").value("updateTitle"))
+			.andExpect(jsonPath("$.content").value("updateContent"));
 	}
 }
