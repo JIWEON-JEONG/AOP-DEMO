@@ -12,7 +12,8 @@
 
 ### 핵심 기능
 - 게시판 CRUD 
-- Layer Architecture 적용해보기
 
 ### 추가 요구사항
 - 쿼리가 몇번 나가는지 각 API 마다 로그를 통해 확인 할 수 있어야 함
+- Layer Architecture 적용해보기
+- 시나리오 테스트 작성해보기
