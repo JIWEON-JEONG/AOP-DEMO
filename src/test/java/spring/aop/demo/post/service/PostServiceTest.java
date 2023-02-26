@@ -20,6 +20,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 
 import spring.aop.demo.post.domain.Post;
 import spring.aop.demo.post.domain.repository.PostRepository;
+import spring.aop.demo.post.presentation.dto.ReadPostDto;
 import spring.aop.demo.post.presentation.dto.WritePostDto;
 
 @ExtendWith(SpringExtension.class)
@@ -34,6 +35,30 @@ class PostServiceTest {
 	@BeforeAll
 	void init() {
 		postUseCase = new PostService(postRepository);
+	}
+
+	@Test
+	@DisplayName("게시물 읽기 테스트 코드")
+	void read() {
+		//given
+		String title = "title";
+		String content = "content";
+		Post post = Post.builder()
+			.title(title)
+			.content(content)
+			.build();
+		Long postId = 1L;
+		ReflectionTestUtils.setField(post, "id", postId);
+
+		//when :: bdd mockito given
+		when(postRepository.findById(Mockito.any(Long.class)))
+			.thenReturn(Optional.of(post));
+		ReadPostDto.ResponseForm response = postUseCase.read(postId);
+
+		//then
+		assertThat(response.getId()).isEqualTo(postId);
+		assertThat(response.getTitle()).isEqualTo(title);
+		assertThat(response.getContent()).isEqualTo(content);
 	}
 
 	@Test

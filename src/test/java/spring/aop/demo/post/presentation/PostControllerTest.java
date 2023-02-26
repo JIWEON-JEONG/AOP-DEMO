@@ -6,6 +6,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
@@ -18,6 +19,7 @@ import spring.aop.demo.post.presentation.dto.WritePostDto;
 class PostControllerTest extends BaseIntegrationTest {
 
 	@Test
+	@Order(value = 1)
 	void 게시물_작성() throws Exception {
 		//given
 		String title = "title";
@@ -33,5 +35,23 @@ class PostControllerTest extends BaseIntegrationTest {
 		resultActions
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.id").value(1L));
+	}
+
+	@Test
+	@Order(value = 2)
+	void 게시물_읽기() throws Exception {
+		//given
+		Long postId = 1L;
+		//when
+		ResultActions resultActions = mockMvc.perform(get("/v1/boards/" + postId)
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON))
+			.andDo(print());
+		//then
+		resultActions
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.id").value(1L))
+			.andExpect(jsonPath("$.title").value("title"))
+			.andExpect(jsonPath("$.content").value("content"));
 	}
 }
