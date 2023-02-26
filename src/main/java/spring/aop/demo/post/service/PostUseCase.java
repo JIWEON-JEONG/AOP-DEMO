@@ -5,5 +5,5 @@ import spring.aop.demo.post.presentation.dto.WritePostDto;
 
 public interface PostUseCase {
 	WritePostDto.ResponseForm write(WritePostDto.RequestForm request);
-	ReadPostDto.ResponseForm read(int postId);
+	ReadPostDto.ResponseForm read(Long postId);
 }

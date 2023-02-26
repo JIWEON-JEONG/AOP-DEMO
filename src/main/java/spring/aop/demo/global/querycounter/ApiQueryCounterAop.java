@@ -1,14 +1,13 @@
-package spring.aop.demo.querycounter;
+package spring.aop.demo.global.querycounter;
 
 import java.lang.reflect.Proxy;
 
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.stereotype.Component;
 
-import spring.aop.demo.querycounter.dynamic_proxy.ConnectionProxyHandler;
+import spring.aop.demo.global.querycounter.dynamic_proxy.ConnectionProxyHandler;
 
 @Aspect
 @Component

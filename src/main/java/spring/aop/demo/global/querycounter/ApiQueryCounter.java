@@ -1,4 +1,4 @@
-package spring.aop.demo.querycounter;
+package spring.aop.demo.global.querycounter;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;

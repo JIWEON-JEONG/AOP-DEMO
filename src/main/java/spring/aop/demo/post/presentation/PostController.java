@@ -25,15 +25,14 @@ public class PostController {
 	private final PostUseCase postUseCase;
 
 	@GetMapping("/{postId}")
-	public ResponseEntity<ReadPostDto.ResponseForm> writeNewPostApi(@PathVariable @NotNull int postId) {
+	public ResponseEntity<ReadPostDto.ResponseForm> writeNewPostApi(@PathVariable @NotNull Long postId) {
 		ReadPostDto.ResponseForm response = postUseCase.read(postId);
 		return ResponseEntity.ok(response);
 	}
 
 	@PostMapping
 	public ResponseEntity<WritePostDto.ResponseForm> writeNewPostApi(
-		@Valid @RequestBody WritePostDto.RequestForm request
-	) {
+		@Valid @RequestBody WritePostDto.RequestForm request) {
 		WritePostDto.ResponseForm response = postUseCase.write(request);
 		return ResponseEntity.ok(response);
 	}

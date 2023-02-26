@@ -1,4 +1,4 @@
-package spring.aop.demo.interceptor;
+package spring.aop.demo.global.interceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import lombok.extern.slf4j.Slf4j;
-import spring.aop.demo.querycounter.ApiQueryCounter;
+import spring.aop.demo.global.querycounter.ApiQueryCounter;
 
 @Slf4j
 @Component

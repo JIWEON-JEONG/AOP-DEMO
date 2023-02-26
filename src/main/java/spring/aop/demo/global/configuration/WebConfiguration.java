@@ -1,11 +1,11 @@
-package spring.aop.demo.configuration;
+package spring.aop.demo.global.configuration;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import spring.aop.demo.interceptor.LoggingInterceptor;
-import spring.aop.demo.querycounter.ApiQueryCounter;
+import spring.aop.demo.global.interceptor.LoggingInterceptor;
+import spring.aop.demo.global.querycounter.ApiQueryCounter;
 
 @Configuration
 public class WebConfiguration implements WebMvcConfigurer {

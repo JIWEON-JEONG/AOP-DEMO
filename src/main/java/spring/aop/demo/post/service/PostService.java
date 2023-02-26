@@ -19,8 +19,15 @@ public class PostService implements PostUseCase {
 	private final PostRepository postRepository;
 
 	@Override
-	public ReadPostDto.ResponseForm read(int postId) {
-		return ReadPostDto.ResponseForm.builder().build();
+	public ReadPostDto.ResponseForm read(Long postId) {
+		Optional<Post> wrappedPost = postRepository.findById(postId);
+		Post post = validateIfExist(wrappedPost);
+
+		return ReadPostDto.ResponseForm.builder()
+			.id(post.readPrimaryKey())
+			.title(post.readTitle())
+			.content(post.readContent())
+			.build();
 	}
 
 	@Override
@@ -32,5 +39,10 @@ public class PostService implements PostUseCase {
 		Long postId = postRepository.save(post).readPrimaryKey();
 
 		return new WritePostDto.ResponseForm(postId);
+	}
+
+	private Post validateIfExist(Optional<Post> post) {
+		post.orElseThrow(() -> new RuntimeException("404 PostNotFound"));
+		return post.get();
 	}
 }
